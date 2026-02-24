@@ -10,10 +10,10 @@
         </template>
 
         <template v-slot:prepend>
-          <v-app-bar-nav-icon></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon @click="emit('click')"></v-app-bar-nav-icon>
         </template>
 
-        <v-app-bar-title>Title</v-app-bar-title>
+        <v-app-bar-title>Notes App</v-app-bar-title>
 
         <v-btn icon>
           <v-icon>mdi-magnify</v-icon>
@@ -28,3 +28,8 @@
         </v-btn>
     </v-app-bar>
 </template>
+<script setup lang="ts">
+const emit = defineEmits<{
+  (e: 'click'): void
+}>()
+</script>

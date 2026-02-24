@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import Card from '@/components/common/Card.vue';
-import AppBar from '@/components/layout/AppBar.vue';
+import NavBar from '@/components/layout/NavBar.vue';
+import Filters from '@/components/layout/Filters.vue';
 
 </script>
 
 <template>
     <v-card class="mx-auto" color="grey-lighten-3" >
         <v-layout>
-            <AppBar />
-
+            <NavBar />
             <v-main>
+                <Filters />
                 <v-container fluid>
                     <v-row density="comfortable">
                         <v-col v-for="n in 8" :key="n" cols="3">
