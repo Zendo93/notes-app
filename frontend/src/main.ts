@@ -22,12 +22,18 @@ import '@fontsource/roboto/500-italic.css'
 import '@fontsource/roboto/700-italic.css'
 import '@fontsource/roboto/900-italic.css'
 
+//mdi
+import '@mdi/font/css/materialdesignicons.css'
+
 import App from './App.vue'
 import router from './router'
 
 const vuetify = createVuetify({
   components,
   directives,
+  icons: {
+    defaultSet: 'mdi',
+  },
 })
 
 const app = createApp(App)
