@@ -1,6 +1,6 @@
 <template>
     <v-select :class="['select', props.class]" :label="label" :items="items"
-        :variant="variant"></v-select>
+        :variant="variant" v-bind="$attrs"></v-select>
 </template>
 <script setup lang="ts">
     interface Props {

@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import Card from '@/components/common/Card.vue';
 import NavBar from '@/components/layout/NavBar.vue';
-import Filters from '@/components/layout/Filters.vue';
-
 </script>
 
 <template>
@@ -10,15 +7,7 @@ import Filters from '@/components/layout/Filters.vue';
         <v-layout>
             <NavBar />
             <v-main>
-                <Filters />
-                <v-container fluid>
-                    <v-row density="comfortable">
-                        <v-col v-for="n in 8" :key="n" cols="3">
-                            <Card :category="`Subtitle for Content ${n}`" :title="`Content ${n}`"
-                                description="Lorem ipsum dolor sit amet consectetur, adipisicing elit.?"></Card>
-                        </v-col>
-                    </v-row>
-                </v-container>
+                <RouterView />
             </v-main>
         </v-layout>
     </v-card>
