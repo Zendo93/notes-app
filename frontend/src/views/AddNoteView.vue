@@ -3,22 +3,24 @@
   <form>
     <app-text-field
       v-model="state.title"
-      :counter="10"
+      :counter="30"
       label="Title"
       required
-      
+      :rules="[required, maxLength(30)]"
     />
-
     <app-select
       v-model="state.category"
       :items="items"
       label="Category"
       variant="underlined"
       required
-    ></app-select>
+      :rules="[required]"
+    />
     <app-textarea
       v-model="state.description"
       label="Description"
+      :counter="100"
+      :rules="[required, maxLength(100)]"
     />
 
     <app-button class="mt-2" type="submit" block>Submit</app-button>
@@ -32,6 +34,7 @@
   import AppSelect from '@/components/common/AppSelect.vue'
 import AppTextarea from '@/components/common/AppTextarea.vue'
 import AppButton from '@/components/common/AppButton.vue'
+import { maxLength, required } from '@/utils/validation'
 //   import { useVuelidate } from '@vuelidate/core'
 //   import { email, required } from '@vuelidate/validators'
 
