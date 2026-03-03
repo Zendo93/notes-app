@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 const props = defineProps<{
   modelValue: string | number | null
   label?: string
@@ -12,14 +14,19 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', v: string | number | null): void
 }>()
+
+const model = computed({
+  get: () => props.modelValue,
+  set: v => emit('update:modelValue', v)
+})
 </script>
 
 <template>
   <v-text-field
+    v-model="model"
     density="comfortable"
-    variant="outlined"
+    variant="underlined"
     hide-details="auto"
-    :model-value="props.modelValue"
     :label="props.label"
     :placeholder="props.placeholder"
     :disabled="props.disabled"
@@ -29,4 +36,4 @@ const emit = defineEmits<{
     @update:model-value="emit('update:modelValue', $event)"
     v-bind="$attrs"
   />
-</template>/
+</template>

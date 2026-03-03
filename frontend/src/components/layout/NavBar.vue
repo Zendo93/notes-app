@@ -1,5 +1,5 @@
 <template>
-  <app-bar @click="drawer = !drawer" />
+  <app-header @nav-click="drawer = !drawer" title="Notes App" />
 
   <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'left' : undefined" temporary>
     <v-list nav>
@@ -9,7 +9,7 @@
   </v-navigation-drawer>
 </template>
 <script setup lang="ts">
-import AppBar from '@/components/common/AppBar.vue';
+import AppHeader from '@/components/common/AppHeader.vue';
 import { ref } from 'vue';
 
 const drawer = ref<boolean>(false)

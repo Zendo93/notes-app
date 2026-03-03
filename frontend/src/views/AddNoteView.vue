@@ -1,43 +1,44 @@
-<!--///TODO-->
 <template>
-     <div class="mx-auto my-container">
+     <div class="mx-auto mt-5 my-container">
   <form>
-    <v-text-field
-      v-model="state.name"
+    <app-text-field
+      v-model="state.title"
       :counter="10"
       label="Title"
       required
       
-    ></v-text-field>
+    />
 
-    <Select
-      v-model="state.select"
+    <app-select
+      v-model="state.category"
       :items="items"
       label="Category"
       variant="underlined"
       required
-    ></Select>
-    <v-textarea
-      v-model="text"
+    ></app-select>
+    <app-textarea
+      v-model="state.description"
       label="Description"
-    ></v-textarea>
+    />
 
-    <v-btn class="mt-2" type="submit" block>Submit</v-btn>
-    <v-btn class="mt-2" block>Cancel</v-btn>
+    <app-button class="mt-2" type="submit" block>Submit</app-button>
+    <app-button class="mt-2" block>Cancel</app-button>
   </form>
 </div>
 </template>
 <script setup lang="ts">
   import { reactive } from 'vue'
-  import Select from '@/components/common/Select.vue'
+  import AppTextField from '@/components/common/AppTextField.vue'
+  import AppSelect from '@/components/common/AppSelect.vue'
+import AppTextarea from '@/components/common/AppTextarea.vue'
+import AppButton from '@/components/common/AppButton.vue'
 //   import { useVuelidate } from '@vuelidate/core'
 //   import { email, required } from '@vuelidate/validators'
 
   const initialState = {
-    name: '',
-    email: '',
-    select: null,
-    checkbox: null,
+    title: '',
+    category: '',
+    description: null,
   }
 
   const state = reactive({
