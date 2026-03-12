@@ -28,6 +28,16 @@ import '@mdi/font/css/materialdesignicons.css'
 import App from './App.vue'
 import router from './router'
 
+async function prepareApp() {
+  if (import.meta.env.VITE_USE_MOCK === "true") {
+    const { worker } = await import('./mocks/browser')
+    return worker.start()
+  }
+
+  return Promise.resolve()
+}
+
+
 const vuetify = createVuetify({
   components,
   directives,
@@ -42,4 +52,6 @@ app.use(createPinia())
 app.use(router)
 app.use(vuetify)
 
-app.mount('#app')
+prepareApp().then(() => {
+  app.mount('#app')
+})
