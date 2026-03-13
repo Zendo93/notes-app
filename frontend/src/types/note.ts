@@ -4,3 +4,5 @@ export interface Note {
   category: string
   description: string
 }
+
+export type CreateNote = Omit<Note, "id" | "timestamp">

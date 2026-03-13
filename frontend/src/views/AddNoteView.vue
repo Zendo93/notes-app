@@ -1,6 +1,6 @@
 <template>
      <div class="mx-auto mt-5 my-container">
-  <form>
+  <v-form ref="form" @submit.prevent="createNote">
     <app-text-field
       v-model="state.title"
       :counter="30"
@@ -10,7 +10,7 @@
     />
     <app-select
       v-model="state.category"
-      :items="items"
+      :items="[...categories]"
       label="Category"
       variant="underlined"
       required
@@ -25,53 +25,50 @@
 
     <app-button class="mt-2" type="submit" block>Submit</app-button>
     <app-button class="mt-2" block>Cancel</app-button>
-  </form>
+  </v-form>
 </div>
 </template>
 <script setup lang="ts">
-  import { reactive } from 'vue'
-  import AppTextField from '@/components/common/AppTextField.vue'
-  import AppSelect from '@/components/common/AppSelect.vue'
+import { reactive } from 'vue'
+import AppTextField from '@/components/common/AppTextField.vue'
+import AppSelect from '@/components/common/AppSelect.vue'
 import AppTextarea from '@/components/common/AppTextarea.vue'
 import AppButton from '@/components/common/AppButton.vue'
 import { maxLength, required } from '@/utils/validation'
-//   import { useVuelidate } from '@vuelidate/core'
-//   import { email, required } from '@vuelidate/validators'
+import { categories } from '@/constants/categories'
+import { useNotesStore } from '@/stores/notes'
+import { useForm } from '@/composables/useForm'
+
+const { form, validate, reset } = useForm()
+const notesStore = useNotesStore()
+const { addNote } = notesStore
 
   const initialState = {
     title: '',
     category: '',
-    description: null,
+    description: '',
   }
 
   const state = reactive({
     ...initialState,
   })
 
-  const items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-  ]
+  async function createNote() {
+    const isValid = await validate()
+    if (!isValid) return
+  const newNote = {
+    title: state.title,
+    category: state.category,
+    description: state.description
+  }
 
-//   const rules = {
-//     name: { required },
-//     email: { required, email },
-//     select: { required },
-//     items: { required },
-//     checkbox: { required },
-//   }
+  addNote(newNote)
 
-//   const v$ = useVuelidate(rules, state)
+  console.log("Created note:", newNote)
 
-//   function clear () {
-//     v$.value.$reset()
-
-//     for (const [key, value] of Object.entries(initialState)) {
-//       state[key] = value
-//     }
-//   }
+  // reset form
+   reset()
+}
 </script>
 <style scoped>
 .my-container {

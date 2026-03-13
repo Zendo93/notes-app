@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import type { Note } from '@/types/note'
+import type { CreateNote, Note } from '@/types/note'
 import { notesApi } from '@/api/modules/notes'
 
 export const useNotesStore = defineStore('notes', () => {
@@ -14,10 +14,15 @@ export const useNotesStore = defineStore('notes', () => {
     notes.value = await notesApi.getAll()
   }
 
-  async function addNote(note: Note) {
-    const res = await notesApi.create(note)
-    if (res) {
-      notes.value.push(note)
+  async function addNote(note: CreateNote) {
+    try {
+      const createdNote = await notesApi.create(note)
+
+      if (!createdNote) return
+
+      notes.value.push(createdNote)
+    } catch (error) {
+      console.error("Failed to create note:", error)
     }
   }
 
