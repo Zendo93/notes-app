@@ -38,11 +38,12 @@ import { maxLength, required } from '@/utils/validation'
 import { categories } from '@/constants/categories'
 import { useNotesStore } from '@/stores/notes'
 import { useForm } from '@/composables/useForm'
+import { useSnackbar } from '@/composables/useSnackbar'
 
 const { form, validate, reset } = useForm()
 const notesStore = useNotesStore()
+const notify = useSnackbar()
 const { addNote } = notesStore
-
   const initialState = {
     title: '',
     category: '',
@@ -63,6 +64,7 @@ const { addNote } = notesStore
   }
 
   addNote(newNote)
+  notify.success("Note has been created")
 
   console.log("Created note:", newNote)
 
