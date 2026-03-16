@@ -16,6 +16,12 @@ const props = defineProps<{
     class="app-card"
     v-bind="$attrs"
   >
+
+    <!-- actions -->
+    <v-card-actions class="float-right custom-actions" v-if="$slots.actions">
+      <slot name="actions" />
+    </v-card-actions>
+
     <!-- header -->
     <v-card-title :class="props.titleClass" v-if="props.title || $slots.title">
       <slot name="title">
@@ -36,11 +42,11 @@ const props = defineProps<{
       </slot>
     </v-card-text>
 
-    <!-- actions -->
-    <v-card-actions v-if="$slots.actions">
-      <slot name="actions" />
-    </v-card-actions>
-
     <slot />
   </v-card>
 </template>
+<style scoped>
+.custom-actions {
+  min-height: 35px;
+}
+</style>

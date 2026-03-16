@@ -6,7 +6,13 @@
                 <AppCard :title="note.title"
           :subtitle="note.category"
           :description="note.description"
-          title-class="pb-0" />
+          title-class="pb-0" 
+         >
+                <template v-slot:actions>
+                    <v-icon class="cursor-pointer" icon="mdi-pencil" size="small" @click="$router.push(`/edit-note/${note.id}`)"></v-icon>
+                    <v-icon class="cursor-pointer" color="error" icon="mdi-delete" size="small"></v-icon>
+                </template>
+                </AppCard>
             </v-col>
         </v-row>
     </v-container>

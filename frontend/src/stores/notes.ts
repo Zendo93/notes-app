@@ -10,6 +10,18 @@ export const useNotesStore = defineStore('notes', () => {
     notes.value.find(n => n.id === id)
   )
  
+  async function getNoteById(id: string) {
+    try {
+      const note = await notesApi.getById(id);
+      const index = notes.value.findIndex(n => n.id === note.id)
+      if (index !== -1) {
+        notes.value[index] = note
+      }
+    } catch(error) {
+      console.log(`Failed to get note with id ${id}`, error)
+    }
+  }
+
   async function getNotes() {
     notes.value = await notesApi.getAll()
   }
@@ -26,10 +38,15 @@ export const useNotesStore = defineStore('notes', () => {
     }
   }
 
-   function updateNote(updated: Note) {
-    const index = notes.value.findIndex(n => n.id === updated.id)
-    if (index !== -1) {
-      notes.value[index] = updated
+   async function updateNote(updated: Note) {
+    try {
+      const note: Note = await notesApi.update(updated);
+      const index = notes.value.findIndex(n => n.id === note.id)
+      if (index !== -1) {
+        notes.value[index] = note
+      }
+    } catch(error) {
+      console.log(`Failed to update note ${JSON.stringify(updateNote)}`, error)
     }
   }
 
@@ -43,6 +60,7 @@ export const useNotesStore = defineStore('notes', () => {
   return {
     notes,
     noteById,
+    getNoteById,
     getNotes,
     addNote,
     updateNote,

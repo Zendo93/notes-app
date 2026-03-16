@@ -14,8 +14,8 @@ export const notesApi = {
     return client.post<Note>("/notes", note)
   },
 
-  update(id: string, note: Partial<Note>) {
-    return client.put(`/notes/${id}`, note)
+  update(note: Note) {
+    return client.put<Note>(`/notes/${note.id}`, note)
   },
 
   delete(id: string) {
