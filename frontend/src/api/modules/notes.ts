@@ -1,9 +1,16 @@
-import type { CreateNote, Note } from "@/types/note"
+import type { CreateNote, Filters, Note } from "@/types/note"
 import { client } from "../client"
+import { buildQueryParams } from "@/utils/buildQueryParams"
 
 export const notesApi = {
-  getAll() {
-    return client.get<Note[]>("/notes")
+  getAll(filters?: Filters) {
+    const params = buildQueryParams(filters as any ?? {});
+
+    // Only add ? if there are any params
+    const queryString = params.toString();
+    const url = queryString ? `/notes?${queryString}` : "/notes";
+
+    return client.get<Note[]>(url);
   },
 
   getById(id: string) {

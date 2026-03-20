@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import type { CreateNote, Note } from '@/types/note'
+import type { CreateNote, Filters, Note } from '@/types/note'
 import { notesApi } from '@/api/modules/notes'
 
 export const useNotesStore = defineStore('notes', () => {
@@ -22,8 +22,8 @@ export const useNotesStore = defineStore('notes', () => {
     }
   }
 
-  async function getNotes() {
-    notes.value = await notesApi.getAll()
+  async function getNotes(filters?: Filters) {
+    notes.value = await notesApi.getAll(filters)
   }
 
   async function addNote(note: CreateNote) {
