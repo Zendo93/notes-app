@@ -6,11 +6,12 @@
                 <AppCard :title="note.title"
           :subtitle="note.category"
           :description="note.description"
+          actions-position="top"
           title-class="pb-0" 
          >
                 <template v-slot:actions>
                     <v-icon class="cursor-pointer" icon="mdi-pencil" size="small" @click="$router.push(`/edit-note/${note.id}`)"></v-icon>
-                    <v-icon class="cursor-pointer" color="error" icon="mdi-delete" size="small"></v-icon>
+                    <v-icon class="cursor-pointer" color="error" icon="mdi-delete" size="small" @click="handleDelete(note.id)"></v-icon>
                 </template>
                 </AppCard>
             </v-col>
@@ -20,6 +21,8 @@
 <script setup lang="ts">
 import AppCard from '@/components/common/AppCard.vue';
 import Filters from '@/components/layout/Filters.vue';
+import { useConfirmDialog } from '@/composables/useConfirmDialog';
+import { useSnackbar } from '@/composables/useSnackbar';
 import { useNotesStore } from '@/stores/notes';
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue';
@@ -27,6 +30,27 @@ import { onMounted } from 'vue';
 const notesStore = useNotesStore()
 const { getNotes } = notesStore
 const { notes } = storeToRefs(notesStore)
+const { confirm, setLoading, cancel } = useConfirmDialog()
+const notify = useSnackbar()
+
+async function handleDelete(noteId: string) {
+  const ok = await confirm({
+    title: 'Delete note',
+    message: `Are you sure, you want to delete note with id=${noteId}?`,
+    confirmText: 'Delete'
+  })
+
+  if (!ok) return
+
+   try {
+    setLoading(true)
+    await notesStore.deleteNote(noteId)
+    notify.success(`Note with id=${noteId} has been successfuly deleted`)
+  } finally {
+    setLoading(false)
+    cancel()
+  }
+}
 
 onMounted(() => {
   getNotes()

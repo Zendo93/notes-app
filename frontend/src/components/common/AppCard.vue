@@ -1,12 +1,15 @@
 <script setup lang="ts">
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   title?: string
   subtitle?: string
   description?: string
   elevation?: number | string
   variant?: "flat" | "text" | "elevated" | "outlined" | "plain" | "tonal" 
   titleClass?: string
-}>()
+  actionsPosition?: "top" | "bottom"
+}>(), {
+  actionsPosition: 'bottom'
+})
 </script>
 
 <template>
@@ -17,8 +20,8 @@ const props = defineProps<{
     v-bind="$attrs"
   >
 
-    <!-- actions -->
-    <v-card-actions class="float-right custom-actions" v-if="$slots.actions">
+    <!-- actions top -->
+    <v-card-actions class="float-right custom-actions" v-if="$slots.actions && actionsPosition === 'top'">
       <slot name="actions" />
     </v-card-actions>
 
@@ -42,6 +45,11 @@ const props = defineProps<{
       </slot>
     </v-card-text>
 
+    <!-- actions bottom -->
+    <v-card-actions v-if="$slots.actions && actionsPosition === 'bottom'">
+      <slot name="actions" />
+    </v-card-actions>
+    
     <slot />
   </v-card>
 </template>

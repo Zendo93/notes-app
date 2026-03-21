@@ -1,4 +1,4 @@
-import type { CreateNote, Filters, Note } from "@/types/note"
+import type { CreateNote, DeleteNote, Filters, Note } from "@/types/note"
 import { client } from "../client"
 import { buildQueryParams } from "@/utils/buildQueryParams"
 
@@ -26,6 +26,6 @@ export const notesApi = {
   },
 
   delete(id: string) {
-    return client.delete(`/notes/${id}`)
+    return client.delete<DeleteNote>(`/notes/${id}`)
   }
 }

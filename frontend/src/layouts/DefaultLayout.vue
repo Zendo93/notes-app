@@ -16,6 +16,17 @@
                         />
                     </template>
                 </app-snackbar>
+                <ConfirmDialog
+                    v-model="isOpen"
+                    :title="options.title"
+                    :confirm-text="options.confirmText as string"
+                    :cancel-text="options.cancelText"
+                    :color="options.color"
+                    :message="options.message"
+                    :loading="loading"
+                    @close="cancel"
+                    @confirm="accept"
+                />
             </v-main>
         </v-layout>
     </v-sheet>
@@ -24,7 +35,16 @@
 import AppButton from '@/components/common/AppButton.vue';
 import NavBar from '@/components/layout/NavBar.vue';
 import AppSnackbar from '@/components/common/AppSnackbar.vue';
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue';
 import { useSnackbar } from '@/composables/useSnackbar';
+import { useConfirmDialog } from '@/composables/useConfirmDialog';
 
 const { show } = useSnackbar()
+const {
+  isOpen,
+  accept,
+  cancel,
+  loading,
+  options
+} = useConfirmDialog()
 </script>

@@ -1,6 +1,11 @@
 import type { Category } from "@/constants/categories"
 import type { Sort } from "@/constants/sorts"
 
+export interface DeleteNote {
+  success: boolean
+  id: string
+}
+
 export interface Note {
   id: string
   title: string

@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw"
+import { delay, http, HttpResponse } from "msw"
 import { notesMock } from "./data/notes"
 import type { CreateNote, Note } from "@/types/note"
 import type { Sort } from "@/constants/sorts"
@@ -12,7 +12,7 @@ export const handlers = [
     const sort: Sort = (url.searchParams.get("sort") ?? 'asc') as Sort 
     const category = url.searchParams.get("category") as Category
 
-    let result = [...notesMock]
+    let result = [...notesMock.notes]
 
     // 🔍 filter by search
     if (search) {
@@ -48,14 +48,14 @@ export const handlers = [
       timestamp: new Date().toISOString()
     }
 
-    notesMock.push(createdNote)
+    notesMock.notes.push(createdNote)
     return HttpResponse.json(createdNote, { status: 201 })
   }),
   http.put("/api/notes/:id", async ({ params, request }) => {
     const { id } = params
     const updatedData: Note = (await request.json()) as Note
 
-    const noteIndex = notesMock.findIndex(note => note.id === id)
+    const noteIndex = notesMock.notes.findIndex(note => note.id === id)
 
     if (noteIndex === -1) {
       return HttpResponse.json(
@@ -65,13 +65,33 @@ export const handlers = [
     }
 
     const updatedNote = {
-      ...notesMock[noteIndex],
+      ...notesMock.notes[noteIndex],
       ...updatedData,
       timestamp: new Date().toISOString()
     }
 
-    notesMock[noteIndex] = updatedNote
+    notesMock.notes[noteIndex] = updatedNote
 
     return HttpResponse.json(updatedNote)
-  })
+  }),
+   http.delete('/api/notes/:id', async ({ params }) => {
+    await delay(800)
+    const id = params.id
+
+    const exists = notesMock.notes.some(n => n.id === id)
+
+    if (!exists) {
+      return HttpResponse.json(
+        { message: 'Note not found' },
+        { status: 404 }
+      )
+    }
+
+    // remove note
+    notesMock.notes = notesMock.notes.filter(n => n.id !== id)
+
+    return HttpResponse.json(
+      { success: true, id }
+    )
+  }),
 ]

@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import type { CreateNote, Filters, Note } from '@/types/note'
+import type { CreateNote, DeleteNote, Filters, Note } from '@/types/note'
 import { notesApi } from '@/api/modules/notes'
 
 export const useNotesStore = defineStore('notes', () => {
@@ -51,9 +51,18 @@ export const useNotesStore = defineStore('notes', () => {
   }
 
   async function deleteNote(id: string) {
-    const res = await notesApi.delete(id)
-    if (res) {
+    try {
+      const res: DeleteNote = await notesApi.delete(id)
+
+      if (!res || !res.success) {
+        throw new Error('Delete failed')
+      }
+
+      // ✅ update local state
       notes.value = notes.value.filter(n => n.id !== id)
+
+    } catch (err) {
+      console.error('Delete error:', err)
     }
   }
 

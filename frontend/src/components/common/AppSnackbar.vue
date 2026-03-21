@@ -5,7 +5,7 @@
     location="bottom"
     :prepend-icon="prependIcon"
     :text="message"
-    timeout="1000"
+    timeout="2000"
     :title="title"
     contained
   >
