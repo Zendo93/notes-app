@@ -2,7 +2,7 @@
     <Filters />
     <v-container fluid>
         <v-row density="comfortable">
-            <v-col v-for="note in notes" :key="note.id" cols="3">
+            <v-col v-for="note in notes" :key="note.id" :cols="12 / columns">
                 <AppCard :title="note.title"
           :subtitle="note.category"
           :description="note.description"
@@ -25,13 +25,25 @@ import { useConfirmDialog } from '@/composables/useConfirmDialog';
 import { useSnackbar } from '@/composables/useSnackbar';
 import { useNotesStore } from '@/stores/notes';
 import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
+import { useDisplay } from 'vuetify';
 
 const notesStore = useNotesStore()
 const { getNotes } = notesStore
 const { notes } = storeToRefs(notesStore)
 const { confirm, setLoading, cancel } = useConfirmDialog()
 const notify = useSnackbar()
+
+const { xs, sm, md, lg } = useDisplay()
+
+const columns = computed(() => {
+  if (xs.value) return 1
+  if (sm.value) return 2
+  if (md.value) return 3
+  if (lg.value) return 4
+
+  return 5
+})
 
 async function handleDelete(noteId: string) {
   const ok = await confirm({
