@@ -34,12 +34,12 @@ const emit = defineEmits<{
     <!-- actions area -->
     <slot name="actions">
       <!-- sensible defaults -->
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
+      <v-btn icon to="/">
+        <v-icon>mdi-home</v-icon>
       </v-btn>
 
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
+      <v-btn icon to="/add-note">
+        <v-icon>mdi-plus-circle</v-icon>
       </v-btn>
 
       <v-btn icon>
